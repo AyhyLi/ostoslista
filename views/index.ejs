@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head> 
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+        <title>Ostoslista</title>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Ostoslista <%=tiedot[0].listanNimi%></h1>
+            
+            <table class="table table-bordered">
+                <tbody>
+                    <%tiedot.forEach((tieto)=>{%>
+                    <tr>
+                        <td>
+                            <%=tieto.ostettu%>
+                        </td>
+                        <td>
+                            <%=tieto.sisalto%>
+                        </td>
+                        <td>
+                            <p>Poista</p>
+                        </td>
+                    </tr>
+                    <%});%>
+                    <tr>
+                        <form method="POST" action="/lisaaListaan">
+                            <td>
+                                <input type="hidden" name="lista" value="<%=tiedot[0].listanNimi%>">
+                                <input type="hidden" name="kayttaja" value="<%=tiedot[0].kayttajaId%>">
+                                <input type="hidden" name="ostettu" value="0">
+                            </td>
+                            <td>
+                                <input type="text" name="sisalto">
+                                <input type="submit" value="Lähetä" class="btn btn-primary">
+                            </td>
+                        </form>
+                        <td>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>
