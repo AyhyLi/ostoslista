@@ -1,25 +1,47 @@
 const express = require("express");
 const app = express();
+const bodyParser=require("body-parser");
+const ostoslista = require("./models/ostoslista");
 
-const portti = process.env.PORT || 3103; //Herokulle ei voi määrittää porttia joten se luo oman, tai toimii paikallisesti omassa portissa
-
-const tehtavalista = require("./models/tehtavat"); 
+const portti = 1000;
 
 app.set("views", "./views");
 app.set("view engine", "ejs");
 
-app.get("/", (req, res) => {
+app.use(express.static("./public/"));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-    tehtavalista.haeKaikki((data) => {
-
-        res.render("index", { "tehtavat" : data });
-
+app.get("/", (req, res)=>{
+    ostoslista.haeListat((err, data)=>{
+        if(err){
+            console.log(err);
+        }
+        else{
+            res.render("index", {"tiedot":data});
+        }
     });
+});
+
+app.post("/lisaaListaan", (req, res)=>{
+    let tiedot={"kayttajaId":req.body.kayttaja,
+                "listanNimi":req.body.lista,
+                "ostettu":Number(req.body.ostettu),
+                "sisalto":req.body.sisalto
+               };
     
+    ostoslista.lisaaListaan(req.body, (err)=>{
+        if(err){
+            console.log(err);
+        }
+        else{
+            res.redirect("/");
+        }
+    });
 });
 
-app.listen(portti, () => {
-
-    console.log(`Palvelin käynnistyi porttiin ${portti}`);
-
+app.listen(portti, ()=>{
+    console.log(`Yhteys on avattu porttiin ${portti}`);
 });
+
+//kenen lista, mikä lista, jaettu, sisältö, ostettu
