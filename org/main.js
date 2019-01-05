@@ -6,7 +6,6 @@ const ostoslista = require("./models/ostoslista");
 const portti = 1000;
 
 let lista = "";
-let kayttaja = 1;
 
 app.set("views", "./views");
 app.set("view engine", "ejs");
@@ -18,7 +17,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.get("/", (req, res)=>{
     lista = "";
     
-    ostoslista.haeListat(kayttaja, (err, data)=>{
+    ostoslista.haeListat((err, data)=>{
         if(err){
             console.log(err);
         }
@@ -30,26 +29,13 @@ app.get("/", (req, res)=>{
 
 app.get("/lista/:id", (req, res)=>{
     lista = req.params.id;
-    listaId = req.params.id;
     
     ostoslista.haeLista(req.params.id, (err, data)=>{
         if(err){
             console.log(err);
         }
         else{
-            //MUISTA LISÄTÄ jos tyhjä haetaan tietyn taulun nimi
-            res.render("lista", {"tiedot":data, "listanId":req.params.id, "listanNimi":req.params.id});
-        }
-    });
-});
-
-app.get("/poistaLista/:id", (req, res)=>{
-    ostoslista.poistaLista(req.params.id, (err)=>{
-        if(err){
-            console.log(err);
-        }
-        else{
-            res.redirect("/");
+            res.render("lista", {"tiedot":data});
         }
     });
 });
@@ -68,7 +54,7 @@ app.get("/poista/:id", (req, res)=>{
 
 app.get("/muokkaaYhta/:id", (req, res)=>{
     
-    ostoslista.haeLista(req.params.id, (err, data)=>{
+    ostoslista.haeLista(lista, (err, data)=>{
         if(err){
             console.log(err);
         }

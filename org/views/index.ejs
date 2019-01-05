@@ -8,22 +8,22 @@
     </head>
     <body>
         <div class="container">
-                <h1 class="mb-4 float-left">Ostoslistat</h1>
-                <a href="#" class="btn btn-secondary float-right mt-3">Kirjaudu ulos</a>
             
-            <%if(tiedot !=""){%>
+            <h1 class="mb-4 float-left">Ostoslistat</h1>
+            <a href="#" class="btn btn-secondary float-right mt-3">Kirjaudu ulos</a>
+            
             <table class="table table-bordered">
                 <tbody>
                 <%tiedot.forEach((tieto)=>{%>
                     <tr>
                         <td>
-                            <a href="/lista/<%=tieto.id%>"><h3><%=tieto.nimi%></h3></a>
+                            <a href="/lista/<%=tieto.listanNimi%>"><h3><%=tieto.listanNimi%></h3></a>
                         </td>
                         <td>
                             <a href="#">Jaa lista</a>
                         </td>
                         <td>
-                            <a href="/poistaLista/<%=tieto.id%>">Poista lista</a>
+                            <a href="#">Poista lista</a>
                         </td>
                     </tr>
                 <%});%>
@@ -35,17 +35,6 @@
                 <input type="hidden" name="id" value="<%=tiedot[0].kayttajaId%>">
                 <input type="submit" value="Luo uusi lista" class="btn btn-primary">
             </form>
-            <%}
-            else{%>
-            <table class="table"></table>
-            <div class="form-group">
-                <form method="POST" action="/uusiLista" class="mt-5 needs-validation" novalidate>
-                <input type="text" name="nimi" class="form-control w-50 float-left mr-3" required>
-                <input type="hidden" name="id" value="">
-                <input type="submit" value="Luo uusi lista" class="btn btn-primary">
-            </form>
-            </div>
-            <%}%>
         </div>
     </body>
     

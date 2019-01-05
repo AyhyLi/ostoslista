@@ -3,7 +3,7 @@ const yhteys = mysql.createConnection({
                                         host     : "localhost",
                                         user     : "root",
                                         password : "",
-                                        database : "ostoslista_2"
+                                        database : "ostoslista"
                                     });
 
 yhteys.connect((err) => {
@@ -15,17 +15,17 @@ yhteys.connect((err) => {
 });
 
 module.exports = {
-    "haeListat":(kayttaja, callback)=>{
-        let sql="SELECT * FROM listat WHERE kayttajaId = ?";
+    "haeListat":(callback)=>{
+        let sql="SELECT DISTINCT listanNimi, kayttajaId FROM listat";
         
-        yhteys.query(sql, [kayttaja], (err, data)=>{
+        yhteys.query(sql, (err, data)=>{
             callback(err, data);
         });
     },
     
     "haeLista":(listanNimi, callback) => {
         
-        let sql ="SELECT sisalto.id, sisalto.listaId, sisalto.sisalto, sisalto.ostettu, listat.nimi FROM sisalto LEFT JOIN listat ON sisalto.listaId = listat.id WHERE listaId = ?"
+        let sql="SELECT * FROM listat WHERE listanNimi = ?";
         
         yhteys.query(sql, [listanNimi], (err, data)=>{
             callback(err, data);
@@ -33,7 +33,7 @@ module.exports = {
     },
     
     "lisaaLista":(listanTiedot, callback)=>{
-        let sql="INSERT INTO listat (kayttajaId, nimi) VALUES (?, ?)";
+        let sql="INSERT INTO listat (kayttajaId, listanNimi, sisalto, ostettu) VALUES (?, ?,'Kirjoita oma ostos tähän', 0)";
         
         yhteys.query(sql, [listanTiedot.id, listanTiedot.nimi], (err)=>{
             callback(err);
@@ -41,25 +41,17 @@ module.exports = {
     },
     
     "lisaaListaan":(uudetTiedot, callback)=>{
-        let sql="INSERT INTO sisalto (listaId, sisalto) VALUES (?, ?)";
+        let sql="INSERT INTO listat (kayttajaId, listanNimi, sisalto, ostettu) VALUES (?, ?, ?, ?)";
         
-        yhteys.query(sql, [uudetTiedot.lista, uudetTiedot.sisalto], (err)=>{
-            callback(err);
-        });
-    },
-    
-    "poistaLista":(poistettava, callback)=>{
-        let sql="DELETE FROM listat WHERE id = ?";
-        
-        yhteys.query(sql, [poistettava], (err)=>{
+        yhteys.query(sql, [uudetTiedot.kayttaja, uudetTiedot.lista, uudetTiedot.sisalto, uudetTiedot.ostettu], (err)=>{
             callback(err);
         });
     },
     
     "poistaListasta":(poistettava, callback)=>{
-        let sql="DELETE FROM sisalto WHERE id = ?";
+        let sql=`DELETE FROM listat WHERE id = ${poistettava}`;
         
-        yhteys.query(sql, [poistettava], (err)=>{
+        yhteys.query(sql, (err)=>{
            callback(err); 
         });
     },
@@ -68,10 +60,10 @@ module.exports = {
         let sql;
         
         if(paivitetty.ostettu){
-            sql=`UPDATE sisalto SET sisalto = "${paivitetty.sisalto}", ostettu = 1 WHERE id = ?`;
+            sql=`UPDATE listat SET sisalto = "${paivitetty.sisalto}", ostettu = 1 WHERE id = ?`;
         }
         else{
-            sql=`UPDATE sisalto SET sisalto = "${paivitetty.sisalto}", ostettu = 0 WHERE id = ?`;
+            sql=`UPDATE listat SET sisalto = "${paivitetty.sisalto}", ostettu = 0 WHERE id = ?`;
         }
         
         yhteys.query(sql, [paivitetty.id],(err)=>{
@@ -83,10 +75,10 @@ module.exports = {
         let sql;
         
         if(tiedot.ostettu == "true"){
-            sql="UPDATE sisalto SET ostettu = 0 WHERE id = ?";
+            sql="UPDATE listat SET ostettu = 0 WHERE id = ?";
         }
         else{
-            sql="UPDATE sisalto SET ostettu = 1 WHERE id = ?";
+            sql="UPDATE listat SET ostettu = 1 WHERE id = ?";
         }
         
         yhteys.query(sql, [tiedot.id], (err)=>{

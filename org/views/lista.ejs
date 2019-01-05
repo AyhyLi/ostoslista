@@ -8,14 +8,12 @@
     </head>
     <body>
         <div class="container">
-            <h1 class="float-left mb-4">Ostoslista 
-            <%if(tiedot !=""){%><%=tiedot[0].nimi%><%}else{%><%=listanNimi%><%}%></h1>
+            <h1 class="float-left mb-4">Ostoslista <%=tiedot[0].listanNimi%></h1>
             <a href="/" class="btn btn-secondary float-right mt-2 mb-4">Takaisin</a>
             
             <table class="table table-bordered">
                 <tbody>
-                    <%if(tiedot !=""){
-                    tiedot.forEach((tieto)=>{%>
+                    <%tiedot.forEach((tieto)=>{%>
                     <tr>
                         <td>
                             <%if(tieto.ostettu == 1){%>
@@ -39,30 +37,18 @@
                     <tr>
                         <form method="POST" action="/lisaaListaan">
                             <td>
-                                <input type="hidden" name="lista" value="<%=tiedot[0].listaId%>">
+                                <input type="hidden" name="lista" value="<%=tiedot[0].listanNimi%>">
                                 <input type="hidden" name="kayttaja" value="<%=tiedot[0].kayttajaId%>">
                                 <input type="hidden" name="ostettu" value="0">
                             </td>
                             <td>
                                 <input type="text" name="sisalto" class="form-control w-50 float-left">
-                                <input type="submit" value="Lisää" class="btn btn-primary float-right mr-3">
+                                <input type="submit" value="Lähetä" class="btn btn-primary float-right mr-3">
                             </td>
                         </form>
                         <td></td>
                         <td></td>
                     </tr>
-                    <%}
-                    else{%>
-                    <tr>
-                        <form method="POST" action="/lisaaListaan">
-                                <input type="hidden" name="lista" value="<%=listanId%>">
-                            <td>
-                                <input type="text" name="sisalto" class="form-control w-50 float-left">
-                                <input type="submit" value="Lisää listaan" class="btn btn-primary float-right mr-3">
-                            </td>
-                        </form>
-                    </tr>
-                    <%}%>
                 </tbody>
             </table>
         </div>
