@@ -15,11 +15,19 @@ yhteys.connect((err) => {
 });
 
 module.exports = {
-    "haeListat":(callback) => {
-        
-        let sql="SELECT * FROM listat";
+    "haeListat":(callback)=>{
+        let sql="SELECT DISTINCT listanNimi, kayttajaId FROM listat";
         
         yhteys.query(sql, (err, data)=>{
+            callback(err, data);
+        });
+    },
+    
+    "haeLista":(listanNimi, callback) => {
+        
+        let sql="SELECT * FROM listat WHERE listanNimi = ?";
+        
+        yhteys.query(sql, [listanNimi], (err, data)=>{
             callback(err, data);
         });
     },

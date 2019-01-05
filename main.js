@@ -5,6 +5,8 @@ const ostoslista = require("./models/ostoslista");
 
 const portti = 1000;
 
+let lista = "";
+
 app.set("views", "./views");
 app.set("view engine", "ejs");
 
@@ -13,7 +15,22 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get("/", (req, res)=>{
+    lista = "";
+    
     ostoslista.haeListat((err, data)=>{
+        if(err){
+            console.log(err);
+        }
+        else{
+            res.render("index", {"tiedot":data});
+        }
+    });
+});
+
+app.get("/lista/:nimi", (req, res)=>{
+    lista = req.params.nimi;
+    
+    ostoslista.haeLista(req.params.nimi, (err, data)=>{
         if(err){
             console.log(err);
         }
@@ -37,7 +54,7 @@ app.get("/poista/:id", (req, res)=>{
 
 app.get("/muokkaaYhta/:id", (req, res)=>{
     
-    ostoslista.haeListat((err, data)=>{
+    ostoslista.haeLista((err, data)=>{
         if(err){
             console.log(err);
         }
@@ -59,7 +76,7 @@ app.get("/ostettu/:id", (req, res)=>{
           console.log(err);
       }
       else{
-          res.redirect("/");
+          res.redirect(`/lista/${lista}`);
       } 
    });
 });
@@ -71,7 +88,7 @@ app.post("/lisaaListaan", (req, res)=>{
             console.log(err);
         }
         else{
-            res.redirect("/");
+            res.redirect(`/lista/${lista}`);
         }
     });
 });
@@ -83,7 +100,7 @@ app.post("/tallennaMuokkaus", (req, res)=>{
             console.log(err);
         }
         else{
-            res.redirect("/");
+            res.redirect(`/lista/${lista}`);
         }
     });
 });

@@ -8,3 +8,6 @@ Alottelin jo työn tekoa jo aikasemmin, miettimällä miten koostan järkevästi tiet
 Nyt Azure demo saitiin toimiin niin nyt voin siirtää minun jo aikasemmin tehdyt koodit azure projektiin. Helpommin sanottu kuin tehty. Koska uppoutui liikaa aikaa siihen että yritin vain saada koodeeja toimimaan Azureen... Joten toimikoot paikallisesti vain.
 Listaan lisäämisen jälkeen lisäsin poistamisen, muokkaamisen sekä vaihtaa että onko ostettu vai ei.
 Kun perus toiminnallusuudet on tehty niin sen jälkeen tulee kirjautuminen ja sitten listan jaon mahdollistaminen
+
+
+hash ot10
