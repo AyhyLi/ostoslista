@@ -32,6 +32,14 @@ module.exports = {
         });
     },
     
+    "lisaaLista":(listanTiedot, callback)=>{
+        let sql="INSERT INTO listat (kayttajaId, listanNimi, sisalto, ostettu) VALUES (?, ?,'Kirjoita oma ostos tähän', 0)";
+        
+        yhteys.query(sql, [listanTiedot.id, listanTiedot.nimi], (err)=>{
+            callback(err);
+        });
+    },
+    
     "lisaaListaan":(uudetTiedot, callback)=>{
         let sql="INSERT INTO listat (kayttajaId, listanNimi, sisalto, ostettu) VALUES (?, ?, ?, ?)";
         

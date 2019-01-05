@@ -8,7 +8,7 @@
     </head>
     <body>
         <div class="container">
-            <h1>Ostoslista <%=tiedot[0].listanNimi%></h1>
+            <h1 class="mb-4">Ostoslista <%=tiedot[0].listanNimi%></h1>
             
             <table class="table table-bordered">
                 <tbody>
@@ -35,7 +35,7 @@
                             </form>
                         
                             <td>
-                                <a href="/" class="btn btn-secondary">Peruuta</a>
+                                <a href="/lista/<%=tieto.listanNimi%>" class="btn btn-secondary">Peruuta</a>
                             </td>
                     </tr>
                     <%}

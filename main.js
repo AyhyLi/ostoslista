@@ -47,14 +47,14 @@ app.get("/poista/:id", (req, res)=>{
             console.log(err);
         }
         else{
-            res.redirect("/");
+            res.redirect(`/lista/${lista}`);
         }
     });
 });
 
 app.get("/muokkaaYhta/:id", (req, res)=>{
     
-    ostoslista.haeLista((err, data)=>{
+    ostoslista.haeLista(lista, (err, data)=>{
         if(err){
             console.log(err);
         }
@@ -80,6 +80,18 @@ app.get("/ostettu/:id", (req, res)=>{
       } 
    });
 });
+
+app.post("/uusiLista", (req, res)=>{
+    ostoslista.lisaaLista(req.body, (err)=>{
+        if(err){
+            console.log(err);
+        }
+        else{
+            res.redirect("/");
+        }
+    });
+});
+
 
 app.post("/lisaaListaan", (req, res)=>{
     
