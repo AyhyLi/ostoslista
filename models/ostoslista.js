@@ -28,9 +28,7 @@ module.exports = {
     },
     
     "kirjaudu":(tiedot, callback)=>{
-         let salasana = crypto.createHash("SHA512").update(tiedot.salasana).digest("hex");
-        
-        console.log(salasana);
+        let salasana = crypto.createHash("SHA512").update(tiedot.salasana).digest("hex");
         
         let sql="SELECT id, tunnus FROM kayttajat WHERE tunnus = ? AND salasana = ?";
         
@@ -115,6 +113,22 @@ module.exports = {
         
         yhteys.query(sql, [tiedot.id], (err)=>{
            callback(err); 
+        });
+    },
+    
+    "haeKayttaja":(kayttaja, callback)=>{
+        let sql = "SELECT id FROM kayttajat WHERE tunnus = ?";
+        
+        yhteys.query(sql, [kayttaja], (err, data)=>{
+            callback(err, data);
+        });
+    },
+    
+    "jaaLista":(jaettava, callback)=>{
+        let sql = "UPDATE listat SET jaettuKayttaja = ? WHERE id = ?";
+        
+        yhteys.query(sql, [jaettava.id, jaettava.lista], (err)=>{
+            callback(err);
         });
     }
 };

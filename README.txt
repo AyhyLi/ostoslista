@@ -16,12 +16,10 @@ BUGI: kun lista on tyjä niin ei hae listan nimeä
 
 sen jälkeen tulee kirjautuminen ja sitten listan jaon mahdollistaminen
 
+Sivu kommentti, tiedän että kirjautuminen olisi voinut hoitaa ehkä järkevämmin ja ehkä turvallisemmin sessiolla taikka passportilla, mutta toteutin sen tuolla tavalla koska projekti on minusta tarpeeksi laaja maksimi pisteisiin.
+
 
 hash ot10
 sessio ot6
-
-LISTAT: Minkä niminen, kenen, jaettu (kenen kanssa), hyväksytty jako
-LISTA: sisalto, ostettu, mihin listaan kuuluu
-KÄYTTÄJÄT: Käyttäjänimi, salasana
 
    AND p.pet_id = :pet_id

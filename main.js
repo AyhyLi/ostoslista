@@ -6,7 +6,7 @@ const ostoslista = require("./models/ostoslista");
 const portti = 1000;
 
 let lista = "";
-let kayttaja;
+let kayttaja = "";
 
 app.set("views", "./views");
 app.set("view engine", "ejs");
@@ -15,24 +15,28 @@ app.use(express.static("./public/"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+//VOI JAKAA MUTTA SE JOLLE ON JAETTU, NIIN SILLÄ EI NÄY
+
 app.get("/", (req, res)=>{
-    res.render("kirjaudu");
+    if(kayttaja !=""){
+        lista = "";
     
-    /*lista = "";
-    
-    ostoslista.haeListat(kayttaja, (err, data)=>{
-        if(err){
-            console.log(err);
-        }
-        else{
-            res.render("index", {"tiedot":data});
-        }
-    });*/
+        ostoslista.haeListat(kayttaja, (err, data)=>{
+            if(err){
+                console.log(err);
+            }
+            else{
+                res.render("index", {"tiedot":data});
+            }
+        });
+    }
+    else{
+        res.render("kirjaudu");
+    }
 });
 
 app.get("/lista/:id", (req, res)=>{
     lista = req.params.id;
-    listaId = req.params.id;
     
     ostoslista.haeLista(req.params.id, (err, data)=>{
         if(err){
@@ -70,7 +74,7 @@ app.get("/poista/:id", (req, res)=>{
 
 app.get("/muokkaaYhta/:id", (req, res)=>{
     
-    ostoslista.haeLista(req.params.id, (err, data)=>{
+    ostoslista.haeLista(lista, (err, data)=>{
         if(err){
             console.log(err);
         }
@@ -97,6 +101,13 @@ app.get("/ostettu/:id", (req, res)=>{
    });
 });
 
+app.get("/kirjauduUlos", (req, res)=>{
+    kayttaja = "";
+    lista = "";
+    
+    res.redirect("/");
+});
+
 app.post("/luoKayttaja", (req, res)=>{
     ostoslista.luoKayttaja(req.body, (err)=>{
         if(err){
@@ -115,7 +126,6 @@ app.post("/kirjaudu", (req, res)=>{
         }
         else{
             kayttaja = data[0].id;
-            console.log(data[0].id);
             res.redirect("/");
         }
    });
@@ -154,6 +164,46 @@ app.post("/tallennaMuokkaus", (req, res)=>{
         else{
             res.redirect(`/lista/${lista}`);
         }
+    });
+});
+
+app.post("/jaa", (req, res)=>{
+    
+    ostoslista.haeListat(kayttaja, (err, data)=>{
+            if(err){
+                console.log(err);
+            }
+            else{
+                res.render("jaa", {"tiedot":data, "jaettava":req.body.lista});
+            }
+        });
+});
+
+app.post("/jaaLista", (req, res)=>{
+    let tiedot = {
+        "id":null,
+        "lista":req.body.lista
+    };
+    ostoslista.haeKayttaja(req.body.kuka, (err, data)=>{
+        if(err){
+            console.log(err);
+        }
+        else{
+            tiedot.id = data[0].id;
+            
+            ostoslista.jaaLista(tiedot, (err)=>{
+                if(err){
+                    console.log(err);
+                }
+                else{
+                    res.redirect("/");
+                }
+            });
+        }
+    });
+    
+    app.post("/poistaJako", (req, res)=>{
+        
     });
 });
 

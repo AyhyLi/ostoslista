@@ -9,7 +9,7 @@
     <body>
         <div class="container">
                 <h1 class="mb-4 float-left">Ostoslistat</h1>
-                <a href="#" class="btn btn-secondary float-right mt-3">Kirjaudu ulos</a>
+                <a href="/kirjauduUlos" class="btn btn-secondary float-right mt-3">Kirjaudu ulos</a>
             
             <%if(tiedot !=""){%>
             <table class="table table-bordered">
@@ -20,10 +20,21 @@
                             <a href="/lista/<%=tieto.id%>"><h3><%=tieto.nimi%></h3></a>
                         </td>
                         <td>
-                            <a href="#">Jaa lista</a>
+                            <%if(tieto.jaettuKayttaja !=null){%>
+                                <form method="POST" action="/poistaJako">
+                                    <input type="hidden" name="lista" value="<%=tieto.id%>">
+                                    <input type="submit" value="Poista jako" class="btn btn-info">
+                                </form>
+                            <%}
+                            else{%>
+                                <form method="POST" action="/jaa">
+                                    <input type="hidden" name="lista" value="<%=tieto.id%>">
+                                    <input type="submit" value="Jaa lista" class="btn btn-info">
+                                </form>
+                            <%}%>
                         </td>
                         <td>
-                            <a href="/poistaLista/<%=tieto.id%>">Poista lista</a>
+                            <a href="/poistaLista/<%=tieto.id%>" class="btn btn-danger">Poista lista</a>
                         </td>
                     </tr>
                 <%});%>
