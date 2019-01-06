@@ -18,13 +18,10 @@ sen jälkeen tulee kirjautuminen ja sitten listan jaon mahdollistaminen
 
 
 hash ot10
+sessio ot6
 
 LISTAT: Minkä niminen, kenen, jaettu (kenen kanssa), hyväksytty jako
 LISTA: sisalto, ostettu, mihin listaan kuuluu
 KÄYTTÄJÄT: Käyttäjänimi, salasana
 
-DELETE pa
-      FROM pets_activities pa
-      JOIN pets p ON pa.id = p.pet_id
- WHERE p.order > :order
    AND p.pet_id = :pet_id

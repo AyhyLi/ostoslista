@@ -6,7 +6,7 @@ const ostoslista = require("./models/ostoslista");
 const portti = 1000;
 
 let lista = "";
-let kayttaja = 1;
+let kayttaja;
 
 app.set("views", "./views");
 app.set("view engine", "ejs");
@@ -16,7 +16,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get("/", (req, res)=>{
-    lista = "";
+    res.render("kirjaudu");
+    
+    /*lista = "";
     
     ostoslista.haeListat(kayttaja, (err, data)=>{
         if(err){
@@ -25,7 +27,7 @@ app.get("/", (req, res)=>{
         else{
             res.render("index", {"tiedot":data});
         }
-    });
+    });*/
 });
 
 app.get("/lista/:id", (req, res)=>{
@@ -92,6 +94,30 @@ app.get("/ostettu/:id", (req, res)=>{
       else{
           res.redirect(`/lista/${lista}`);
       } 
+   });
+});
+
+app.post("/luoKayttaja", (req, res)=>{
+    ostoslista.luoKayttaja(req.body, (err)=>{
+        if(err){
+            console.log(err);
+        }
+        else{
+            res.redirect("/");
+        }
+    });
+});
+
+app.post("/kirjaudu", (req, res)=>{
+   ostoslista.kirjaudu(req.body, (err, data)=>{
+       if(err){
+            console.log(err);
+        }
+        else{
+            kayttaja = data[0].id;
+            console.log(data[0].id);
+            res.redirect("/");
+        }
    });
 });
 

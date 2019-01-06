@@ -5,6 +5,7 @@ const yhteys = mysql.createConnection({
                                         password : "",
                                         database : "ostoslista_2"
                                     });
+const crypto=require("crypto");
 
 yhteys.connect((err) => {
     if(!err) {
@@ -15,6 +16,29 @@ yhteys.connect((err) => {
 });
 
 module.exports = {
+    "luoKayttaja":(tiedot, callback)=>{
+
+        let salasana = crypto.createHash("SHA512").update(tiedot.salasana).digest("hex");
+        
+        let sql="INSERT INTO kayttajat (tunnus, salasana, sahkoposti) VALUES (?, ?, ?)";
+        
+        yhteys.query(sql, [tiedot.tunnus, salasana, tiedot.sPosti], (err)=>{
+            callback(err);
+        });
+    },
+    
+    "kirjaudu":(tiedot, callback)=>{
+         let salasana = crypto.createHash("SHA512").update(tiedot.salasana).digest("hex");
+        
+        console.log(salasana);
+        
+        let sql="SELECT id, tunnus FROM kayttajat WHERE tunnus = ? AND salasana = ?";
+        
+        yhteys.query(sql, [tiedot.tunnus, salasana], (err, data)=>{
+            callback(err, data);
+        });
+    },
+    
     "haeListat":(kayttaja, callback)=>{
         let sql="SELECT * FROM listat WHERE kayttajaId = ?";
         
