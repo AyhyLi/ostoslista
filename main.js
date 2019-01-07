@@ -7,6 +7,7 @@ const portti = 1000;
 
 let lista = "";
 let kayttaja = "";
+let virhe = "";
 
 app.set("views", "./views");
 app.set("view engine", "ejs");
@@ -32,14 +33,14 @@ app.get("/", (req, res)=>{
                         console.log(err);
                     }
                     else{
-                        res.render("index", {"tiedot":tiedot, "jaettu":data, "kayttaja":kayttaja});
+                        res.render("index", {"tiedot":tiedot, "jaettu":data, "kayttaja":kayttaja, virhe:virhe});
                     }
                 });
             }
         });
     }
     else{
-        res.render("kirjaudu");
+        res.render("kirjaudu", {"virhe":virhe});
     }
 });
 
@@ -51,6 +52,7 @@ app.get("/lista/:id", (req, res)=>{
             console.log(err);
         }
         else{
+            virhe="";
             
             if(data !=""){
                 res.render("lista", {"tiedot":data, "listanId":req.params.id, "listanNimi":""});
@@ -75,6 +77,7 @@ app.get("/poistaLista/:id", (req, res)=>{
             console.log(err);
         }
         else{
+            virhe="";
             res.redirect("/");
         }
     });
@@ -124,6 +127,7 @@ app.get("/ostettu/:id", (req, res)=>{
 app.get("/kirjauduUlos", (req, res)=>{
     kayttaja = "";
     lista = "";
+    virhe="";
     
     res.redirect("/");
 });
@@ -145,8 +149,15 @@ app.post("/kirjaudu", (req, res)=>{
             console.log(err);
         }
         else{
-            kayttaja = data[0].id;
-            res.redirect("/");
+            if(data !=""){
+                kayttaja = data[0].id;
+                res.redirect("/");
+                virhe = "";
+            }
+            else{
+                virhe="Virhe tapauhtui kirjautuessa. Käyttäjänimi tai salasana väärin. Syötä tiedot uudestaan.";
+                res.redirect("/");
+            }
         }
    });
 });
@@ -157,6 +168,7 @@ app.post("/uusiLista", (req, res)=>{
             console.log(err);
         }
         else{
+            virhe="";
             res.redirect("/");
         }
     });
@@ -194,7 +206,9 @@ app.post("/jaa", (req, res)=>{
                 console.log(err);
             }
             else{
-                res.render("jaa", {"tiedot":data, "jaettava":req.body.lista});
+                jaettu = req.body.lista;
+                
+                res.render("jaa", {"tiedot":data, "jaettava":jaettu});
             }
         });
 });
@@ -206,20 +220,29 @@ app.post("/jaaLista", (req, res)=>{
     };
     
     ostoslista.haeKayttaja(req.body.kuka, (err, data)=>{
+        let kuka=req.body.kuka;
+        
         if(err){
             console.log(err);
         }
         else{
-            tiedot.id = data[0].id;
+            if(data !=""){
+                tiedot.id = data[0].id;
             
-            ostoslista.jaaLista(tiedot, (err)=>{
-                if(err){
-                    console.log(err);
-                }
-                else{
-                    res.redirect("/");
-                }
-            });
+                ostoslista.jaaLista(tiedot, (err)=>{
+                    if(err){
+                        console.log(err);
+                    }
+                    else{
+                        virhe="";
+                        res.redirect("/");
+                    }
+                });
+            }
+            else{
+                virhe =`Virhe tapahtui jakaessa. ${kuka} nimistä käyttäjää ei löydy. Paina uudellen jaa lista ja kirjoita käyttäjänimi kokonaan.`;
+                res.redirect("/");
+            }
         }
     });
 });
@@ -230,6 +253,7 @@ app.post("/poistaJako", (req, res)=>{
             console.log(err);
         }
         else{
+            virhe="";
             res.redirect("/");
         }
     });

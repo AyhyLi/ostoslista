@@ -16,7 +16,7 @@ Kun SQLt ja muut oli korjattu muutoksen takia, tein kirjautumisen ja jaon. Jako 
 
 Koodissani oli jonkin aikaa "ominaisuus" että kun meni listan sisälle joka oli tyhjä, niin listan nimeä ei näkynyt ja vasta kun siellä oli sisältö se näkyin, korjaisin ominaisuuden peräkkäis haulla jos ensimmäinen haku ei tuota tulosta.
 
-Nyt kun kaikki ominaisuudet toimii, niin lopuksi touteutan virhe ilmoitukset.
+Nyt kun kaikki ominaisuudet toimii, niin lopuksi touteutan hieman virhe ilmoitukset.
 
 
 Sivu kommentti, tiedän että kirjautuminen olisi voinut hoitaa ehkä järkevämmin ja ehkä turvallisemmin sessiolla taikka passportilla, mutta toteutin sen tuolla tavalla koska projekti on minusta tarpeeksi laaja maksimi pisteisiin.

@@ -8,9 +8,9 @@
     </head>
     <body>
         <div class="container">
-                <h1 class="mb-4 float-left">Ostoslistat</h1>
-                <a href="/kirjauduUlos" class="btn btn-secondary float-right mt-3">Kirjaudu ulos</a>
-            
+            <h1 class="mb-4 float-left">Ostoslistat</h1>
+            <a href="/kirjauduUlos" class="btn btn-secondary float-right mt-3">Kirjaudu ulos</a>
+  
             <%if(tiedot !=""){%>
             <table class="table table-bordered">
                 <tbody>
@@ -40,6 +40,13 @@
                 <%});%>
                 </tbody>
             </table>
+            
+            <%if(virhe !=""){%>
+                <div class="alert alert-danger mt-3">
+                    <%=virhe%>
+                </div>
+            <%}%>
+            
             
             <form method="POST" action="/uusiLista" class="my-5 needs-validation" novalidate>
                 <input type="text" name="nimi" class="form-control w-50 float-left mr-3" required>
