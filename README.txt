@@ -12,9 +12,12 @@ Listan luominen ei tee uutta taulua SQL koska, se olisi hassua olla monta taulua
 
 Hieman takapakkia prosessissa tuli kun muutin tietokanan rakennetta niin että kahden taulun sijasta on kolme. Mutta kolmella se on järkevämpi listan jaon kannalta.
 
-BUGI: kun lista on tyjä niin ei hae listan nimeä
+Kun SQLt ja muut oli korjattu muutoksen takia, tein kirjautumisen ja jaon. Jako teko onnistu helposti haetaan nimen perusteella (oletetaan että sovelluksessa käyttäjänimet ovat uniikkeja) id ja lisätään sen lista tauluun jaettu käyttäjä kohtaan. Seuraavaksi piti hetken miettiä että teenkö "SQL hiviö haulla" että se hakee omat listat sekä jaetut, mutta koska halusin ne erikseen, joten ratkuisu oli sellainen kuten näet koodissa.
 
-sen jälkeen tulee kirjautuminen ja sitten listan jaon mahdollistaminen
+Koodissani oli jonkin aikaa "ominaisuus" että kun meni listan sisälle joka oli tyhjä, niin listan nimeä ei näkynyt ja vasta kun siellä oli sisältö se näkyin, korjaisin ominaisuuden peräkkäis haulla jos ensimmäinen haku ei tuota tulosta.
+
+Nyt kun kaikki ominaisuudet toimii, niin lopuksi touteutan virhe ilmoitukset.
+
 
 Sivu kommentti, tiedän että kirjautuminen olisi voinut hoitaa ehkä järkevämmin ja ehkä turvallisemmin sessiolla taikka passportilla, mutta toteutin sen tuolla tavalla koska projekti on minusta tarpeeksi laaja maksimi pisteisiin.
 

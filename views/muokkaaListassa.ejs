@@ -16,7 +16,7 @@
                         <%if(tieto.id == muokattava){%>
                     <tr>
                         <form method="POST" action="/tallennaMuokkaus">
-                            <td>
+                            <td class="col-1">
                                 <%if(tieto.ostettu == 1){%>
                                     <input type="checkbox" name="ostettu" class="form-control-lg" checked>
                                 <%}
@@ -26,21 +26,19 @@
                             </td>
                             <td>
                                 <input type="text" name="sisalto" class="form-control" value="<%=tieto.sisalto%>">
-                            </td>
-                            <td>
                                 <input type="hidden" name="id" value="<%=tieto.id%>">
                                 <input type="submit" value="Tallenna" class="btn btn-primary">
                             </td>
-                            </form>
+                        </form>
                         
-                            <td>
+                            <td class="col-3">
                                 <a href="/lista/<%=tieto.listaId%>" class="btn btn-secondary">Peruuta</a>
                             </td>
                     </tr>
                     <%}
                     else{%>
                         <tr>
-                            <td>
+                            <td class="col-1">
                                 <%if(tieto.ostettu == 1){%>
                                     <span class="fas fa-check"></span>
                                 <%}

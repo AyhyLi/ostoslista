@@ -25,14 +25,14 @@
                                 <a href="/ostettu/<%=tieto.id%>?ostettu=false" style="color:#000"><span class="fas fa-times"></span></a>
                             <%}%>
                         </td>
-                        <td>
+                        <td class="col-5">
                             <%=tieto.sisalto%>
                         </td>
                         <td>
-                            <p><a href="/muokkaaYhta/<%=tieto.id%>">Muokkaa</a></p>
+                            <a href="/muokkaaYhta/<%=tieto.id%>" class="btn btn-warning">Muokkaa</a>
                         </td>
                         <td>
-                            <p><a href="/poista/<%=tieto.id%>">Poista</a></p>
+                            <a href="/poista/<%=tieto.id%>" class="btn btn-danger">Poista</a>
                         </td>
                     </tr>
                     <%});%>
@@ -43,13 +43,11 @@
                                 <input type="hidden" name="kayttaja" value="<%=tiedot[0].kayttajaId%>">
                                 <input type="hidden" name="ostettu" value="0">
                             </td>
-                            <td>
-                                <input type="text" name="sisalto" class="form-control w-50 float-left">
-                                <input type="submit" value="Lisää" class="btn btn-primary float-right mr-3">
+                            <td colspan="3">
+                                <input type="text" name="sisalto" class="form-control float-left" style="width:65%">
+                                <input type="submit" value="Lisää" class="btn btn-primary float-right mr-1" style="width:32%">
                             </td>
                         </form>
-                        <td></td>
-                        <td></td>
                     </tr>
                     <%}
                     else{%>

@@ -54,6 +54,22 @@ module.exports = {
         });
     },
     
+    "haeListanNimi":(id, callback)=>{
+        let sql="SELECT nimi FROM listat WHERE id = ?";
+        
+        yhteys.query(sql, [id], (err, data)=>{
+            callback(err, data);
+        });
+    },
+    
+    "haeJaetut":(kayttaja, callback)=>{
+        let sql="SELECT * FROM listat WHERE jaettuKayttaja = ?";
+        
+        yhteys.query(sql, [kayttaja], (err, data)=>{
+            callback(err, data);
+        });
+    },
+    
     "lisaaLista":(listanTiedot, callback)=>{
         let sql="INSERT INTO listat (kayttajaId, nimi) VALUES (?, ?)";
         
@@ -129,6 +145,14 @@ module.exports = {
         
         yhteys.query(sql, [jaettava.id, jaettava.lista], (err)=>{
             callback(err);
+        });
+    },
+    
+    "poistaJako":(id, callback)=>{
+        let sql="UPDATE listat SET jaettuKayttaja = null WHERE id= ?";
+        
+        yhteys.query(sql, [id], (err)=>{
+           callback(err); 
         });
     }
 };

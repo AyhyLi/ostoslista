@@ -16,10 +16,10 @@
                 <tbody>
                 <%tiedot.forEach((tieto)=>{%>
                     <tr>
-                        <td>
+                        <td class="col-6">
                             <a href="/lista/<%=tieto.id%>"><h3><%=tieto.nimi%></h3></a>
                         </td>
-                        <td>
+                        <td class="col-3">
                             <%if(tieto.jaettuKayttaja !=null){%>
                                 <form method="POST" action="/poistaJako">
                                     <input type="hidden" name="lista" value="<%=tieto.id%>">
@@ -33,7 +33,7 @@
                                 </form>
                             <%}%>
                         </td>
-                        <td>
+                        <td class="col-3">
                             <a href="/poistaLista/<%=tieto.id%>" class="btn btn-danger">Poista lista</a>
                         </td>
                     </tr>
@@ -41,7 +41,7 @@
                 </tbody>
             </table>
             
-            <form method="POST" action="/uusiLista" class="mt-5 needs-validation" novalidate>
+            <form method="POST" action="/uusiLista" class="my-5 needs-validation" novalidate>
                 <input type="text" name="nimi" class="form-control w-50 float-left mr-3" required>
                 <input type="hidden" name="id" value="<%=tiedot[0].kayttajaId%>">
                 <input type="submit" value="Luo uusi lista" class="btn btn-primary">
@@ -49,13 +49,33 @@
             <%}
             else{%>
             <table class="table"></table>
-            <div class="form-group">
+            <div class="form-group mb-5">
                 <form method="POST" action="/uusiLista" class="mt-5 needs-validation" novalidate>
                 <input type="text" name="nimi" class="form-control w-50 float-left mr-3" required>
-                <input type="hidden" name="id" value="">
+                <input type="hidden" name="id" value="<%=kayttaja%>">
                 <input type="submit" value="Luo uusi lista" class="btn btn-primary">
             </form>
             </div>
+            <%}%>
+            <%if(jaettu != ""){%>
+                <h3 class="mb-3">Sinun kanssa jaetut listat:</h3>
+                <table class="table table-bordered">
+                    <tbody>
+                <%jaettu.forEach((jako)=>{%>
+                    <tr>
+                        <td class="col-9">
+                            <a href="/lista/<%=jako.id%>"><h4><%=jako.nimi%></h4></a>
+                        </td>
+                        <td class="col-3">
+                            <form method="POST" action="/poistaJako">
+                                <input type="hidden" name="lista" value="<%=jako.id%>">
+                                <input type="submit" value="Poista jako" class="btn btn-info">
+                            </form>
+                        </td>
+                    </tr>
+                <%});%>
+                    </tbody>
+            </table>
             <%}%>
         </div>
     </body>

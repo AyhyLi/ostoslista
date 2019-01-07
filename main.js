@@ -15,18 +15,26 @@ app.use(express.static("./public/"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-//VOI JAKAA MUTTA SE JOLLE ON JAETTU, NIIN SILLÄ EI NÄY
-
 app.get("/", (req, res)=>{
     if(kayttaja !=""){
         lista = "";
+        let tiedot= "";
     
         ostoslista.haeListat(kayttaja, (err, data)=>{
             if(err){
                 console.log(err);
             }
             else{
-                res.render("index", {"tiedot":data});
+                tiedot = data;
+                
+                ostoslista.haeJaetut(kayttaja, (err, data)=>{
+                    if(err){
+                        console.log(err);
+                    }
+                    else{
+                        res.render("index", {"tiedot":tiedot, "jaettu":data, "kayttaja":kayttaja});
+                    }
+                });
             }
         });
     }
@@ -43,8 +51,20 @@ app.get("/lista/:id", (req, res)=>{
             console.log(err);
         }
         else{
-            //MUISTA LISÄTÄ jos tyhjä haetaan tietyn taulun nimi
-            res.render("lista", {"tiedot":data, "listanId":req.params.id, "listanNimi":req.params.id});
+            
+            if(data !=""){
+                res.render("lista", {"tiedot":data, "listanId":req.params.id, "listanNimi":""});
+            }
+            else{
+                ostoslista.haeListanNimi(lista, (err, data)=>{
+                    if(err){
+                        console.log(err);
+                    }
+                    else{
+                        res.render("lista", {"tiedot":"", "listanId":lista, "listanNimi":data[0].nimi});
+                    }
+                });
+            }
         }
     });
 });
@@ -184,6 +204,7 @@ app.post("/jaaLista", (req, res)=>{
         "id":null,
         "lista":req.body.lista
     };
+    
     ostoslista.haeKayttaja(req.body.kuka, (err, data)=>{
         if(err){
             console.log(err);
@@ -201,14 +222,19 @@ app.post("/jaaLista", (req, res)=>{
             });
         }
     });
-    
-    app.post("/poistaJako", (req, res)=>{
-        
+});
+
+app.post("/poistaJako", (req, res)=>{
+    ostoslista.poistaJako(req.body.lista, (err)=>{
+        if(err){
+            console.log(err);
+        }
+        else{
+            res.redirect("/");
+        }
     });
 });
 
 app.listen(portti, ()=>{
     console.log(`Yhteys on avattu porttiin ${portti}`);
 });
-
-//kenen lista, mikä lista, jaettu, kenen kanssa jaettu, sisältö, ostettu
