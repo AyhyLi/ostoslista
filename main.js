@@ -9,6 +9,9 @@ let lista = "";
 let kayttaja = "";
 let virhe = "";
 
+//Käyttäjä 1: tunnus: testaaja, salasana: Kissakala29
+//Käyttäja 2: tunnus: testaaja2, salasana: Kissakala
+
 app.set("views", "./views");
 app.set("view engine", "ejs");
 
@@ -262,3 +265,5 @@ app.post("/poistaJako", (req, res)=>{
 app.listen(portti, ()=>{
     console.log(`Yhteys on avattu porttiin ${portti}`);
 });
+
+//Lähteet: w3 schools, bootstrap ja OT10 ja OT6
