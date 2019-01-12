@@ -16,7 +16,7 @@
                         <%if(tieto.id == muokattava){%>
                     <tr>
                         <form method="POST" action="/tallennaMuokkaus">
-                            <td class="col-1">
+                            <td>
                                 <%if(tieto.ostettu == 1){%>
                                     <input type="checkbox" name="ostettu" class="form-control-lg" checked>
                                 <%}
@@ -24,10 +24,10 @@
                                     <input type="checkbox" name="ostettu" class="form-control-lg">
                                 <%}%>
                             </td>
-                            <td>
-                                <input type="text" name="sisalto" class="form-control" value="<%=tieto.sisalto%>">
+                            <td class="col-8">
+                                <input type="text" name="sisalto" class="form-control float-left" value="<%=tieto.sisalto%>" style="width:80%">
                                 <input type="hidden" name="id" value="<%=tieto.id%>">
-                                <input type="submit" value="Tallenna" class="btn btn-primary">
+                                <input type="submit" value="Tallenna" class="btn btn-primary float-right">
                             </td>
                         </form>
                         
@@ -38,7 +38,7 @@
                     <%}
                     else{%>
                         <tr>
-                            <td class="col-1">
+                            <td>
                                 <%if(tieto.ostettu == 1){%>
                                     <span class="fas fa-check"></span>
                                 <%}
@@ -46,11 +46,9 @@
                                     <span class="fas fa-times"></span>
                                 <%}%>
                             </td>
-                            <td>
+                            <td colspan="2">
                                 <%=tieto.sisalto%>
                             </td>
-                            <td></td>
-                            <td></td>
                         </tr>
                     <%}});%>
                 </tbody>
